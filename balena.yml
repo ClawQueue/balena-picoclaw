@@ -1,0 +1,49 @@
+name: PicoClaw on Balena
+type: sw.application
+description: >
+  Run PicoClaw (<10MB RAM Go AI Assistant & WebUI Launcher) on Raspberry Pi Zero,
+  BeagleBone Black, and other low-spec SBCs via balenaCloud.
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: "https://github.com/ClawQueue/balena-picoclaw"
+  logo:
+    type: blob.asset
+    data:
+      url: "https://raw.githubusercontent.com/sipeed/picoclaw/main/assets/logo.webp"
+data:
+  applicationEnvironmentVariables:
+    - PICOCLAW_DASHBOARD_PASSWORD: ""
+    - PICOCLAW_GATEWAY_TOKEN: ""
+    - PICOCLAW_MODE: "launcher"
+    - PICOCLAW_ALLOWED_ORIGINS: ""
+    - PICOCLAW_PUBLIC_ORIGIN: ""
+    - PICOCLAW_ENABLE_IPV6: "false"
+    - PICOCLAW_VERSION: ""
+    - PICOCLAW_KEEP_VERSIONS: "2"
+    - PICOCLAW_GATEWAY_STOP: "false"
+    - PICOCLAW_ENABLE_HARDWARE: "false"
+    - PICOCLAW_GOMEMLIMIT: "128MiB"
+    - PICOCLAW_GOGC: "50"
+    - PICOCLAW_EXTRA_PKGS: ""
+    - HAPROXY_CERT_CN: ""
+  defaultDeviceType: raspberry-pi
+  supportedDeviceTypes:
+    - raspberry-pi
+    - raspberry-pi2
+    - raspberrypi0-2w-64
+    - raspberrypi3
+    - raspberrypi3-64
+    - raspberrypi4-64
+    - raspberrypi5
+    - orange-pi-zero
+    - orange-pi-one
+    - orange-pi-lite
+    - nanopi-neo
+    - beaglebone-black
+    - beaglebone-green
+    - beaglebone-green-wifi
+    - beaglebone-pocket
+    - generic-aarch64
+    - generic-amd64

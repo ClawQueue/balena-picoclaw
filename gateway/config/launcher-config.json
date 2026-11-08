@@ -1,0 +1,10 @@
+{
+  "port": 18800,
+  "public": true,
+  "allowed_cidrs": [],
+  "allow_localhost_bypass": true,
+  "trusted_proxy_cidrs": [
+    "127.0.0.1/32",
+    "::1/128"
+  ]
+}

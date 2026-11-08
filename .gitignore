@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+*.img
+*.img.zip
+*.tar.gz
+.env
+data/
+secrets
+secrets/
+gateway/secrets/*
+!gateway/secrets/.keep
+!gateway/secrets/*.example

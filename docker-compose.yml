@@ -1,0 +1,77 @@
+version: "2.4"
+
+services:
+  proxy:
+    build: ./proxy
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    mem_limit: 48m
+    volumes:
+      - proxy_certs:/etc/haproxy/certs
+    environment:
+      - HAPROXY_CERT_CN=${HAPROXY_CERT_CN:-picoclaw.local}
+    depends_on:
+      - picoclaw
+
+  picoclaw:
+    build: ./gateway
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    volumes:
+      - picoclaw_data:/data
+      - picoclaw_home:/root
+
+    # Sized for 512MB SBCs (Raspberry Pi Zero, BeagleBone Black)
+    # Holds runtime logs and staging archives in RAM to prevent microSD/eMMC wear
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64M
+
+    environment:
+      # WebUI Dashboard login password — auto-generated if empty (see start.sh)
+      - PICOCLAW_DASHBOARD_PASSWORD=
+
+      # Pico WebSocket channel token — auto-generated if empty (see start.sh)
+      - PICOCLAW_GATEWAY_TOKEN=
+
+      # Runtime mode:
+      #   "launcher" (default): WebUI Console (port 18800) + Gateway (port 18790) (~25MB RAM)
+      #   "gateway": Headless Gateway only (port 18790) for ultra-low memory (<10-15MB RAM)
+      - PICOCLAW_MODE=launcher
+
+      # Comma-separated extra WebSocket origins for custom DNS/Tailscale/etc.
+      # Example: https://picoclaw.example.com,https://my-pi.ts.net
+      - PICOCLAW_ALLOWED_ORIGINS=
+
+      # Single public browser origin. Useful for pasting the Balena tunnel URL.
+      - PICOCLAW_PUBLIC_ORIGIN=
+
+      # IPv6 is disabled by default for simpler Raspberry Pi / BeagleBone / LAN deployments.
+      - PICOCLAW_ENABLE_IPV6=false
+
+      # Set to a specific version to upgrade/downgrade (e.g. "v0.3.1" or "nightly")
+      - PICOCLAW_VERSION=
+
+      # Number of version snapshots to keep on /data (default: 2 to save eMMC/SD space)
+      - PICOCLAW_KEEP_VERSIONS=2
+
+      # Set true for repair/debug sessions without starting the gateway/launcher
+      - PICOCLAW_GATEWAY_STOP=false
+
+      # Enable Linux hardware tools (I2C, SPI, Serial/UART) in config.json
+      - PICOCLAW_ENABLE_HARDWARE=false
+
+      # Enable dynamic Google Cloud CLI installation (optional, requires sufficient storage)
+      - PICOCLAW_INSTALL_GCLOUD=false
+
+      # LOW-SPEC SBC MEMORY & FLASH WEAR OPTIMIZATIONS
+      # Soft memory limit for Go runtime (prevents OOM on 512MB RPi Zero / BeagleBone Black)
+      - PICOCLAW_GOMEMLIMIT=128MiB
+      # Aggressive garbage collection target to keep RSS footprint minimal
+      - PICOCLAW_GOGC=50
+
+volumes:
+  picoclaw_data:
+  picoclaw_home:
+  proxy_certs:

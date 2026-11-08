@@ -1,0 +1,102 @@
+{
+  "version": 3,
+  "agents": {
+    "defaults": {
+      "workspace": "~/.picoclaw/workspace",
+      "restrict_to_workspace": true,
+      "allow_read_outside_workspace": false,
+      "model_name": "gpt-5.4",
+      "max_tokens": 8192,
+      "max_tool_iterations": 20,
+      "summarize_message_threshold": 20,
+      "summarize_token_percent": 75
+    }
+  },
+  "model_list": [
+    {
+      "model_name": "gpt-5.4",
+      "model": "openai/gpt-5.4",
+      "api_base": "https://api.openai.com/v1"
+    },
+    {
+      "model_name": "claude-sonnet-4.6",
+      "model": "anthropic/claude-sonnet-4.6",
+      "api_base": "https://api.anthropic.com/v1"
+    },
+    {
+      "model_name": "gemini-2.5-flash",
+      "model": "gemini/gemini-2.5-flash",
+      "api_base": "https://generativelanguage.googleapis.com/v1beta"
+    },
+    {
+      "model_name": "deepseek-chat",
+      "model": "deepseek/deepseek-chat",
+      "api_base": "https://api.deepseek.com/v1"
+    },
+    {
+      "model_name": "openrouter-auto",
+      "model": "openrouter/auto",
+      "api_base": "https://openrouter.ai/api/v1"
+    }
+  ],
+  "channel_list": {
+    "pico": {
+      "enabled": true,
+      "type": "pico",
+      "settings": {
+        "allow_token_query": false,
+        "ping_interval": 30,
+        "read_timeout": 60,
+        "write_timeout": 10,
+        "max_connections": 32
+      }
+    }
+  },
+  "gateway": {
+    "host": "127.0.0.1",
+    "port": 18790,
+    "hot_reload": false,
+    "log_level": "warn"
+  },
+  "tools": {
+    "web": {
+      "prefer_native": true,
+      "duckduckgo": {
+        "enabled": true,
+        "max_results": 5
+      }
+    },
+    "cron": {
+      "enabled": true,
+      "exec_timeout_minutes": 5,
+      "allow_command": true
+    },
+    "exec": {
+      "enabled": true,
+      "enable_deny_patterns": true
+    },
+    "skills": {
+      "enabled": true
+    },
+    "mcp": {
+      "enabled": false
+    },
+    "i2c": {
+      "enabled": false
+    },
+    "spi": {
+      "enabled": false
+    },
+    "serial": {
+      "enabled": false
+    }
+  },
+  "heartbeat": {
+    "enabled": true,
+    "interval": 30
+  },
+  "devices": {
+    "enabled": false,
+    "monitor_usb": false
+  }
+}
